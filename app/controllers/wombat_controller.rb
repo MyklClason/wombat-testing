@@ -1,7 +1,15 @@
 class WombatController < ApplicationController
 
+  # Todo:
+  # Add a url model to store/parse urls (via uri)
+  #   http://stackoverflow.com/a/8288172
+  # Use the header to determine if page has changed
+  #  Use previous version if it has not
+  # Create a model to store the scrape results
+
   def index
     results = scrape
+    @url = results["url"]
     @tables = results["tables"]
     @images = results["images"]
   end
@@ -29,16 +37,22 @@ class WombatController < ApplicationController
 
   def scrape_ingrammicro
     require 'wombat'
-    Wombat.crawl do
-      base_url "https://us-new.ingrammicro.com"
-      #path "/_layouts/CommerceServer/IM/ProductDetails.aspx?id=US01@@9500@@10@@YW9103"
-      path "/_layouts/CommerceServer/IM/ProductDetails.aspx?id=US01@@9500@@10@@YW8658"
 
-      images xpath: "//img/@src", :iterator do
-      end
+    url_base = "https://us-new.ingrammicro.com"
+    url_path = "/_layouts/CommerceServer/IM/ProductDetails.aspx?id=US01@@9500@@10@@YW8658"
+      #url_path =  "/_layouts/CommerceServer/IM/ProductDetails.aspx?id=US01@@9500@@10@@YW9103"
+
+    Wombat.crawl do
+      base_url url_base
+
+      path url_path
+
+      # Get the images for this (currently not working, try different approach)
+      images xpath: "//img/@src"
+
+      url url_base + url_path
 
       tables "css=table", :iterator do
-        rows "css=tr"
         heading "css=th"
         rows "css=tr", :iterator do
           attr "css=td:nth-child(1)"

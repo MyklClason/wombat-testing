@@ -1,8 +1,13 @@
+<h1>Scrap results for:</h1>
+<%= link_to @url %>
+<hr>
+<h2>Tables:</h2>
 <% @tables.each do |table| %>
-<h1><%= table["heading"] %></h1>
+<h3><%= table["heading"] %></h2>
 <p><%= table["rows"] %></p>
 <% end %>
-
 <hr>
+<h2>Extra:</h2>
+
 
 <%= @images %>
