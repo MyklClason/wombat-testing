@@ -16,9 +16,11 @@ class WombatController < ApplicationController
 
   private
   def scrape
+    # Todo: Move out of the MVC
     filter(scrape_ingrammicro())
   end
   def filter(results)
+    # Todo: Moveout of the MVC
     tables = results["tables"]
 
     # Should filter if heading is nil
@@ -36,6 +38,7 @@ class WombatController < ApplicationController
   end
 
   def scrape_ingrammicro
+    # Todo: Move out of the MVC
     require 'wombat'
 
     url_base = "https://us-new.ingrammicro.com"
